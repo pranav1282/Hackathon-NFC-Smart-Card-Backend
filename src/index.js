@@ -1,46 +1,37 @@
-const express = require('express');
-const app = express();
-const studentRouter = require('./routes/studentRoutes');
-const auth = require("./middlewares/auth")
+const express = require("express");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 
-const mongoose = require('mongoose')
-const dotenv = require("dotenv")
-const cors = require("cors")
+const app = express();
+
+const studentRouter = require("./routes/studentRoutes");
+const auth = require("./middlewares/auth");
+
+const cors = require("cors");
 
 dotenv.config();
 
-app.use(express.json())
+app.use(express.json());
+app.use(cors());
 
-app.use(cors())
+const userRouter = require("./routes/userRoutes");
 
+app.use("/users", userRouter);
+app.use("/students", auth, studentRouter);
 
+app.get("/", (req, res) => {
+  res.send("Smart card");
+});
 
-const userRouter = require('./routes/userRoutes');
-const { collection } = require('./models/user');
+const PORT = process.env.PORT || 5000;
 
-app.use('/users', userRouter);
-app.use('/students',auth , studentRouter);
-
-app.get("/", (req, res)=>{
-    res.send("Smart card")
-})
-
-app.use(auth);
-
-// app.use((req, res, next)=>{
-//     console.log("HTTP Mehtod: " + req.method + ", URL : " + req.url);
-//     next()
-// })
-
-const PORT = process.env.PORT || 5000
-
-mongoose.connect(process.env.MONGO_URL).then(()=>{
-    app.listen(PORT, (req, res)=>{
-    console.log('server listning on port : ' +  PORT)
-})
-}).catch((err)=>{
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() => {
+    app.listen(PORT, (req, res) => {
+      console.log("server listning on port : " + PORT);
+    });
+  })
+  .catch((err) => {
     console.log(err);
-})
-
-
-// route collection
+  });
