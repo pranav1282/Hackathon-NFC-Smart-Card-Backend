@@ -1,12 +1,7 @@
 const express = require("express");
-const {
-    getDetail,
-    studentDetails
-} = require("../controllers/studentControlles")
+const { verifyCard } = require("../controllers/studentControlles");
 const studentRouter = express.Router();
 
-studentRouter.get("/", getDetail);
-
-studentRouter.post("/details", studentDetails);
+studentRouter.post("/", verifyCard);
 
 module.exports = studentRouter;
