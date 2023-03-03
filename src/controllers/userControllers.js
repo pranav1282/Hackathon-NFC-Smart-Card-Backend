@@ -4,7 +4,7 @@ const { json } = require("express");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 
-// const SECRET_KEY = "NOTESAPI"
+const SECRET_KEY = "NOTESAPI";
 
 const signup = async (req, res) => {
   const { username, email, password, contact, route_category, bus_number } =
@@ -32,7 +32,7 @@ const signup = async (req, res) => {
         id: result._id,
         route_category: result.route_category,
       },
-      process.env.SECRET_KEY
+      SECRET_KEY
     );
 
     res.status(201).json({
@@ -69,7 +69,7 @@ const signin = async (req, res) => {
         id: existingUser._id,
         route_category: existingUser.route_category,
       },
-      process.env.SECRET_KEY
+      SECRET_KEY
     );
 
     res.status(200).json({
