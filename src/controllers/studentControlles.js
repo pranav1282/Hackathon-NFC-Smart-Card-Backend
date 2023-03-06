@@ -6,10 +6,6 @@ const verifyCard = async (req, res) => {
     const student_detail = await studentModel.findOne({
       enroll_number: req.body.enroll_number,
     });
-
-    student_detail.image = "";
-    // console.log(student_detail);
-
     res.status(200).json({ student_detail });
   } catch (error) {
     console.log(error);
